@@ -1,8 +1,9 @@
 const express = require('express');
 const passport = require('passport');
 
-const Profile = require('../../models/Profile'); // Load Profile model
-const User = require('../../models/User'); // Load user model
+// Load models
+const Profile = require('../../models/Profile');
+const User = require('../../models/User');
 
 // Load validation
 const validateProfileInput = require('../../validation/profile');
@@ -155,15 +156,19 @@ router.post(
       } else {
         // Create
         // Check if handle exists
-        Profile.findOne({ handle: profileFields.handle }).then((foundProfile) => {
-          if (foundProfile) {
-            errors.handle = 'That handle already exists';
-            res.status(400).json(errors);
-          } else {
-            // Save profile
-            new Profile(profileFields).save().then(savedProfile => res.json(savedProfile));
-          }
-        });
+        Profile.findOne({ handle: profileFields.handle })
+          .then((foundProfile) => {
+            if (foundProfile) {
+              errors.handle = 'That handle already exists';
+              res.status(400).json(errors);
+            } else {
+              // Save profile
+              new Profile(profileFields)
+                .save()
+                .then(savedProfile => res.json(savedProfile))
+                .catch(err => res.status(400).send({ name: 'DB error', error: err }));
+            }
+          });
       }
     });
   },
