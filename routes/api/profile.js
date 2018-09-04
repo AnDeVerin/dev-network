@@ -2,7 +2,7 @@ const express = require('express');
 const passport = require('passport');
 
 const Profile = require('../../models/Profile'); // Load Profile model
-// const User = require('../../models/User'); // Load user model
+const User = require('../../models/User'); // Load user model
 
 // Load validation
 const validateProfileInput = require('../../validation/profile');
@@ -235,6 +235,72 @@ router.post(
           .then(updatedProfile => res.json(updatedProfile))
           .catch(err => res.status(400).send({ name: 'DB error', error: err }));
       })
+      .catch(error => res.status(404).send(error));
+  },
+);
+
+// -------------------------------------------
+// @route   DELETE api/profile/experience/:exp_id
+// @desc    Delete experience from profile
+// @access  Private
+// -------------------------------------------
+router.delete(
+  '/experience/:exp_id',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    Profile.findOne({ user: req.user.id })
+      .then((profile) => {
+        // Remove experience item
+        // eslint-disable-next-line
+        profile.experience = profile.experience
+          .filter(item => item.id !== req.params.exp_id);
+        // Save
+        profile
+          .save()
+          .then(updatedProfile => res.json(updatedProfile))
+          .catch(err => res.status(400).send({ name: 'DB error', error: err }));
+      })
+      .catch(error => res.status(404).send(error));
+  },
+);
+
+// -------------------------------------------
+// @route   DELETE api/profile/education/:edu_id
+// @desc    Delete education from profile
+// @access  Private
+// -------------------------------------------
+router.delete(
+  '/education/:edu_id',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    Profile.findOne({ user: req.user.id })
+      .then((profile) => {
+        // Remove experience item
+        // eslint-disable-next-line
+        profile.education = profile.education
+          .filter(item => item.id !== req.params.edu_id);
+        // Save
+        profile
+          .save()
+          .then(updatedProfile => res.json(updatedProfile))
+          .catch(err => res.status(400).send({ name: 'DB error', error: err }));
+      })
+      .catch(error => res.status(404).send(error));
+  },
+);
+
+// -------------------------------------------
+// @route   DELETE api/profile
+// @desc    Delete user and profile
+// @access  Private
+// -------------------------------------------
+router.delete(
+  '/',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    Profile.findOneAndRemove({ user: req.user.id })
+      .then(() => User.findOneAndRemove({ _id: req.user.id }))
+      .then(() => res.json({ success: true }))
       .catch(error => res.status(404).send(error));
   },
 );
