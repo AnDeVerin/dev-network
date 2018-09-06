@@ -6,5 +6,5 @@
 - MongoDB / Mongoose
 - Postman (developing and testing API)
 - JSON Web Tokens / Passport.js (JWT-authentication)
-- Validator.js (client input validation)
-- React / Redux / React Router
+- React / Redux
+- Bootstrap for UI

@@ -1,8 +1,13 @@
+import PropTypes from 'prop-types'; // eslint-disable-line
+import { withRouter } from 'react-router-dom';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import classnames from 'classnames';
-import axios from 'axios';
 
-export default class Register extends Component {
+import { registerUser } from '../../actions/authAction';
+
+
+class Register extends Component {
   constructor() {
     super();
     this.state = {
@@ -14,28 +19,38 @@ export default class Register extends Component {
     };
   }
 
+  componentDidMount() {
+    if (this.props.auth.isAuthenticated) {
+      this.props.history.push('/dashboard');
+    }
+  }
+
+  // eslint-disable-next-line
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
+  }
+
   onChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
   onSubmit = (e) => {
     e.preventDefault();
+
     const newUser = {
       name: this.state.name,
       email: this.state.email,
       password: this.state.password,
       password2: this.state.password2,
     };
-    // testing API
-    axios
-      .post('/api/users/register', newUser)
-      .then(res => console.log(res.data))
-      .catch(err => this.setState({ errors: err.response.data }));
+
+    this.props.registerUser(newUser, this.props.history);
   };
 
   render() {
     const { errors } = this.state;
-
 
     return (
       <div className="register">
@@ -112,3 +127,18 @@ export default class Register extends Component {
     );
   }
 }
+
+Register.propTypes = {
+  registerUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors,
+});
+
+// create a container component and export it
+export default connect(mapStateToProps, { registerUser })(withRouter(Register));
