@@ -4,6 +4,7 @@ import rootReducer from './reducers';
 
 const initialState = {};
 
+const reduxDevtools = window.__REDUX_DEVTOOLS_EXTENSION__; // eslint-disable-line
 const middleware = [thunk];
 
 const store = createStore(
@@ -11,7 +12,7 @@ const store = createStore(
   initialState,
   compose(
     applyMiddleware(...middleware),
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(), // eslint-disable-line
+    reduxDevtools && reduxDevtools(),
   ),
 );
 

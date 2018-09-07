@@ -2,18 +2,33 @@ img {
   width: 100%;
 }
 
+.App {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+footer {
+  margin-top: auto;
+}
+
 .landing {
   position: relative;
   background: url('./img/showcase.jpg') no-repeat;
   background-size: cover;
   background-position: center;
-  height: 100vh;
+  /* height: 100vh; */
+  min-height: 400px;
   margin-top: -24px;
-  margin-bottom: -50px;
+  /* margin-bottom: -50px; */
+  flex-grow: 1;
 }
 
 .landing-inner {
-  padding-top: 80px;
+  /* padding-top: 80px; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .dark-overlay {
