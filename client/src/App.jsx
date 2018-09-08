@@ -16,6 +16,12 @@ import Login from './components/auth/Login.jsx';
 import Dashboard from './components/dashboard/Dashboard.jsx';
 import PrivateRoute from './components/common/PrivateRoute.jsx';
 import CreateProfile from './components/create-profile/CreateProfile.jsx';
+import EditProfile from './components/edit-profile/EditProfile.jsx';
+import AddExperience from './components/add-credentials/AddExperience.jsx';
+import AddEducation from './components/add-credentials/AddEducation.jsx';
+import Profiles from './components/profiles/Profiles.jsx';
+import Profile from './components/profile/Profile.jsx';
+import NotFound from './components/not-found/NotFound.jsx';
 
 import './App.css';
 
@@ -31,7 +37,6 @@ if (localStorage.jwtToken) {
   const currentTime = Date.now() / 1000;
   if (decodedData.exp < currentTime) {
     store.dispatch(logoutUser());
-    // TODO: Clear current profile
     store.dispatch(clearCurrentProfile());
     // Redirect to login
     window.location.href = '/login';
@@ -50,12 +55,24 @@ class App extends Component {
             <div className="container">
               <Route exact path='/register' component={Register} />
               <Route exact path='/login' component={Login} />
+              <Route exact path='/profiles' component={Profiles} />
+              <Route exact path='/profile/:handle' component={Profile} />
               <Switch>
                 <PrivateRoute exact path='/dashboard' component={Dashboard} />
               </Switch>
               <Switch>
                 <PrivateRoute exact path='/create-profile' component={CreateProfile} />
               </Switch>
+              <Switch>
+                <PrivateRoute exact path='/edit-profile' component={EditProfile} />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path='/add-experience' component={AddExperience} />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path='/add-education' component={AddEducation} />
+              </Switch>
+              <Route exact path='/not-found' component={NotFound} />
             </div>
             <Footer />
           </div>

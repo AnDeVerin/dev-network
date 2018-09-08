@@ -50,4 +50,8 @@ export const logoutUser = () => (dispatch) => {
   setAuthToken(false);
   // Set current user to {}, which also sets isAuthenticated to false
   dispatch(setCurrentUser({}));
+  // reload on profile page
+  if (window.location.pathname.split('/')[1] === 'profile') {
+    window.location.reload();
+  }
 };
