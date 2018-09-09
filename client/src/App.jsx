@@ -22,6 +22,8 @@ import AddEducation from './components/add-credentials/AddEducation.jsx';
 import Profiles from './components/profiles/Profiles.jsx';
 import Profile from './components/profile/Profile.jsx';
 import NotFound from './components/not-found/NotFound.jsx';
+import Posts from './components/posts/Posts.jsx';
+import Post from './components/post/Post.jsx';
 
 import './App.css';
 
@@ -33,6 +35,7 @@ if (localStorage.jwtToken) {
   const decodedData = jwtDecode(localStorage.jwtToken);
   // Set user and isAuthenticated
   store.dispatch(setCurrentUser(decodedData));
+
   // Check for expired token
   const currentTime = Date.now() / 1000;
   if (decodedData.exp < currentTime) {
@@ -71,6 +74,12 @@ class App extends Component {
               </Switch>
               <Switch>
                 <PrivateRoute exact path='/add-education' component={AddEducation} />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path='/feed' component={Posts} />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path='/post/:id' component={Post} />
               </Switch>
               <Route exact path='/not-found' component={NotFound} />
             </div>

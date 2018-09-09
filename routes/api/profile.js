@@ -13,13 +13,6 @@ const validateEducationInput = require('../../validation/education');
 const router = express.Router();
 
 // -------------------------------------------
-// @route   GET api/profile/test
-// @desc    Test profile route
-// @access  Public
-// -------------------------------------------
-router.get('/test', (req, res) => res.json({ msg: 'Profile Works' }));
-
-// -------------------------------------------
 // @route   GET api/profile
 // @desc    Get current user's profile
 // @access  Private

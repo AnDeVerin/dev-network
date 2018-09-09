@@ -1,5 +1,7 @@
-module.exports = {
-  mongoURI: 'mongodb://dnuser:dnuser17@ds143262.mlab.com:43262/dev-network',
-  secretOrKey: 'secret',
-  expiresIn: 86400, // jwt-token life time in sec
-};
+/* eslint-disable */
+
+if (process.env.NODE_ENV === 'production') {
+  module.exports = require('./keys_prod');
+} else {
+  module.exports = require('./keys_dev');
+}
