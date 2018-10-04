@@ -12,7 +12,7 @@ const store = createStore(
   initialState,
   compose(
     applyMiddleware(...middleware),
-    reduxDevtools && reduxDevtools(),
+    // reduxDevtools && reduxDevtools(),
   ),
 );
 
