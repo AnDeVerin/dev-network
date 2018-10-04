@@ -66,7 +66,7 @@ class Login extends Component {
                   error={errors.email}
                 />
                 <TextFieldGroup
-                  placeholder="Email Address"
+                  placeholder="Password"
                   name="password"
                   type="password"
                   value={this.state.password}
